@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    username = None  
+
     user_name = models.CharField(max_length=100)
     user_email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
@@ -11,7 +13,7 @@ class User(AbstractUser):
     created_on = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = "user_email"
-    REQUIRED_FIELDS = ["user_name"]
+    REQUIRED_FIELDS = ["user_name"]   
 
     @property
     def id(self):

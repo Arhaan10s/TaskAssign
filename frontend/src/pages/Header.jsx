@@ -1,6 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem("access");
+
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    navigate("/login");
+  };
+
   return (
     <>
       <style>
@@ -88,6 +97,20 @@ const Header = () => {
                 </NavLink>
               </li>
             </ul>
+            {isLoggedIn ? (
+              <button onClick={handleLogout} className="ml-4">
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link to="/login" className="ml-4">
+                  Login
+                </Link>
+                <Link to="/register" className="ml-4">
+                  Register
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </header>

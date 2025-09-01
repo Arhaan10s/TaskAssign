@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import TaskCard from "../components/TaskCard";
-import axios from "axios";
+import API from "../components/API";
 
-const API_URL = "http://localhost:3000/api/tasks"; 
+const API_URL = "notes/";
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
 
   const fetchTasks = async () => {
+    const res = await API.get(API_URL);
+    setTasks(res.data);
   };
 
   useEffect(() => {
@@ -16,22 +18,28 @@ export default function Home() {
   }, []);
 
   const handleDelete = async (id) => {
+    await API.delete(`${API_URL}${id}/`);
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const handleStatus = async (id, action) => {
+ const handleStatus = async (id, action) => {
+    
+     await API.put(`${API_URL}${id}/${action}/`);
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   const filteredTasks = tasks.filter((task) =>
     filter === "All" ? true : task.status === filter
   );
 
-  const handleUpdate = async (id, updatedData) => {
-  
+   const handleUpdate = async (id, updatedData) => {
+    const res = await API.put(`${API_URL}${id}/`, updatedData);
+    setTasks(tasks.map((task) => (task.id === id ? res.data : task)));
   };
+
 
   return (
     <div>
-      <h1 className="text-center my-4">Task Manager</h1>
       <h1 className="text-2xl font-bold mb-4">Task List</h1>
       <div className="mb-4">
         <select

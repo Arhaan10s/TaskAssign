@@ -3,6 +3,7 @@ from .models import User, Note
 from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(source="note_id", read_only=True)
     class Meta:
         model = User
         fields = ["user_id", "user_name", "user_email", "password"]

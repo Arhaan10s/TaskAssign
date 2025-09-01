@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../components/API";
 
+const API_URL = "tasks/";
 
 export default function CreateTask() {
   const [title, setTitle] = useState("");
@@ -9,6 +11,7 @@ export default function CreateTask() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await API.post(API_URL, { title, description });
     navigate("/");
   };
 
