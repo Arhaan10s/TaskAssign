@@ -28,7 +28,6 @@ class Note(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
-    # Foreign key to custom User
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes")
 
     def __str__(self):
